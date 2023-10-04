@@ -1,0 +1,46 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  user_id    String    @id @default(uuid())
+  user_nome  String
+  user_email String
+  user_senha String
+  create_at  DateTime? @default(now())
+  update_at  DateTime? @default(now())
+
+  @@map("usuarios")
+}
+
+model Filmes {
+  filmes_id      String    @id @default(uuid())
+  filmes_titulo  String
+  filmes_diretor String
+  create_at      DateTime? @default(now())
+  update_at      DateTime? @default(now())
+
+  generos       Genero @relation(fields: [campoGeneroId], references: [genero_id]) // nome tabela generos / nome modelo Genero / criar campo campoGeneroId que faz referencia ao campo genero_id
+  campoGeneroId String
+
+  @@map("filmes")
+}
+
+model Genero {
+  genero_id   String    @id @default(uuid())
+  genero_nome String
+  create_at   DateTime? @default(now())
+  update_at   DateTime? @default(now())
+
+  filmes Filmes[] //filmes - nome base de dados / Filmes - nome do modelo - 1 categoria tem vários filmes
+
+  @@map("genero")
+}
