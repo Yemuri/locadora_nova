@@ -23,7 +23,7 @@ export function isAutenticado(
         ) as Payload
         console.log(sub)
 
-
+        return next()
 
 
     } catch (err) {
