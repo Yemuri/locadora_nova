@@ -4,10 +4,10 @@ import { AutenticarUsuarioServices } from "../../services/Usuarios/AutenticaUsua
 
 class AutenticarUsuarioController {
     async handle(req: Request, res: Response) {
-        const { email, user_senha } = req.body
+        const { user_email, user_senha } = req.body
         const autenticarUsuarioServices = new AutenticarUsuarioServices()
         const resposta = await autenticarUsuarioServices.execute({
-            email, user_senha
+            user_email, user_senha
         })
         return res.json(resposta)
     }

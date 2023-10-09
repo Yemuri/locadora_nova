@@ -3,15 +3,16 @@ import { compare } from "bcryptjs"
 import { sign } from "jsonwebtoken"
 
 interface AutenticarUsuario {
-    email: string
+    user_email: string
     user_senha: string
 }
 
 class AutenticarUsuarioServices {
-    async execute({ email, user_senha }: AutenticarUsuario) {
+    async execute({ user_email, user_senha }: AutenticarUsuario) {
+        console.log(user_senha, user_email)
         const usuario = await clientePrisma.user.findFirst({
             where: {
-                user_email: email
+                user_email: user_email
             }
         })
 
@@ -20,10 +21,11 @@ class AutenticarUsuarioServices {
         }
 
         const autenticado = await compare(user_senha, usuario.user_senha)
+        console.log(autenticado)
         if (!autenticado) {
             throw new Error("Usuário / Senha incorretos");
-
         }
+
 
         const token = sign({
             id: usuario.user_id,
